@@ -7,12 +7,12 @@ upstream:
   git:
     repo: https://github.com/istio/istio
     directory: /manifests/charts/base
-    ref: 1.23.0
+    ref: 1.22.4
   updateStrategy: resource-merge
 upstreamLock:
   type: git
   git:
     repo: https://github.com/istio/istio
     directory: /manifests/charts/base
-    ref: 1.23.0
-    commit: 2ed399ccdbf4bc6394d7350cd384e6b0424f70f2
+    ref: 1.22.4
+    commit: 3a9d7d187e5c4cf1cedd3ae2add78e0072084c2a
