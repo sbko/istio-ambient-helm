@@ -1,0 +1,13 @@
+global:
+  tag: 1.23.0
+  hub: docker.io/istio
+
+istiod:
+  enabled: true
+  profile: ambient
+
+ztunnel:
+  profile: ambient
+
+cni:
+  profile: ambient

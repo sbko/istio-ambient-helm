@@ -1,0 +1,18 @@
+apiVersion: kpt.dev/v1
+kind: Kptfile
+metadata:
+  name: istio-cni
+upstream:
+  type: git
+  git:
+    repo: https://github.com/istio/istio
+    directory: /manifests/charts/istio-cni
+    ref: 1.23.0
+  updateStrategy: resource-merge
+upstreamLock:
+  type: git
+  git:
+    repo: https://github.com/istio/istio
+    directory: /manifests/charts/istio-cni
+    ref: 1.23.0
+    commit: 2ed399ccdbf4bc6394d7350cd384e6b0424f70f2
