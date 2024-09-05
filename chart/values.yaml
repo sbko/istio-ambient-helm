@@ -13,4 +13,6 @@ ztunnel:
   profile: ambient
 
 cni:
-  profile: ambient
+  cni:
+    ambient:
+      enabled: true
