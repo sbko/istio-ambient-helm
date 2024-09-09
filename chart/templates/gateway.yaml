@@ -8,19 +8,23 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-{{- range $listener := $values.listeners }}
-  - name: {{ $listener.name }}
-    protocol: {{ $listener.port.protocol | upper }}
-    port: {{ $listener.port.number }}
-    hostname: {{ $listener.hostname }}
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - name: {{ $listener.tls.credentialName }}
-        kind: Secret
-        group: ""
-    allowedRoutes:
-      namespaces:
-        from: All
-{{- end }}
+  {{- range $listener := $values.listeners }}
+    - name: {{ $listener.name }}
+      protocol: {{ $listener.port.protocol | upper }}
+      port: {{ $listener.port.number }}
+      {{- if $listener.hostname }}
+      hostname: {{ $listener.hostname | quote }}
+      {{- end }}
+      {{- if $listener.tls }}
+      tls:
+        mode: Terminate
+        certificateRefs:
+        - name: {{ $listener.tls.credentialName }}
+          kind: Secret
+          group: ""
+      {{- end }}
+      allowedRoutes:
+        namespaces:
+          from: All
+  {{- end }}
 {{- end }}
