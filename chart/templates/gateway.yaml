@@ -8,25 +8,19 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-{{- range $index, $servers := $values.servers }}
-{{- $tls := (eq $servers.port.protocol "HTTPS") }}
-  - name: {{ $servers.port.name | default "http" }}
-    protocol: {{ $servers.port.protocol | upper }}
-    port: {{ $servers.port.number }}
-    {{- if $tls }}
+{{- range $listener := $values.listeners }}
+  - name: {{ $listener.name }}
+    protocol: {{ $listener.port.protocol | upper }}
+    port: {{ $listener.port.number }}
+    hostname: {{ $listener.hostname }}
     tls:
       mode: Terminate
       certificateRefs:
-        - name: {{ $index }}-{{ $name }}-cert
-          kind: Secret
-          group: ""
-    {{- end }}
+      - name: {{ $listener.tls.credentialName }}
+        kind: Secret
+        group: ""
     allowedRoutes:
       namespaces:
         from: All
-    hostname:
-      {{- range $host := $servers.hosts }}
-      - {{ tpl $host $ }}
-      {{- end }}
 {{- end }}
 {{- end }}

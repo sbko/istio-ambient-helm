@@ -20,33 +20,23 @@ cni:
 
 gateways:
   main:
-    autoHttpRedirect:
-      enabled: true
-    selector:
-      app: "istio-ingressgateway"
-    servers:
-    - hosts:
-      - "*.{{ .Values.domain }}"
+    enabled: true
+    listeners:
+    - name: https
+      hostname: "*.{{ .Values.domain }}"
       port:
-        name: https
         number: 8443
         protocol: HTTPS
       tls:
         credentialName: "wildcard-cert"
-        mode: "SIMPLE"
+        mode: Terminate
   # # Example of adding additional gateways
   # private:
-  #   autoHttpRedirect: # HTTP redirect to HTTPS is automatically added for all hosts when enabled
-  #     enabled: true
-  #   selector:
-  #     app: "private-istio-ingressgateway"
-  #   servers:
-  #   - hosts:
-  #     - "mypackage.{{ .Values.domain }}"
+  #   listeners:
+  #   - name: https-passthrough
+  #     hostname: "mypackage.{{ .Values.domain }}"
   #     port:
-  #       name: http2
   #       number: 8443
   #       protocol: HTTPS
   #     tls:
-  #       credentialName: "some-secret"
-  #       mode: "SIMPLE"
+  #       mode: Passthrough
