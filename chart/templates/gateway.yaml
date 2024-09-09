@@ -13,7 +13,7 @@ spec:
       protocol: {{ $listener.port.protocol | upper }}
       port: {{ $listener.port.number }}
       {{- if $listener.hostname }}
-      hostname: {{ $listener.hostname | quote }}
+      hostname: '{{- tpl $listener.hostname $ }}'
       {{- end }}
       {{- if $listener.tls }}
       tls:
