@@ -9,6 +9,7 @@ istiod:
   enabled: true
   profile: ambient
 
+
 ztunnel:
   profile: ambient
 
@@ -16,3 +17,36 @@ cni:
   cni:
     ambient:
       enabled: true
+
+gateways:
+  main:
+    autoHttpRedirect:
+      enabled: true
+    selector:
+      app: "istio-ingressgateway"
+    servers:
+    - hosts:
+      - "*.{{ .Values.domain }}"
+      port:
+        name: https
+        number: 8443
+        protocol: HTTPS
+      tls:
+        credentialName: "wildcard-cert"
+        mode: "SIMPLE"
+  # # Example of adding additional gateways
+  # private:
+  #   autoHttpRedirect: # HTTP redirect to HTTPS is automatically added for all hosts when enabled
+  #     enabled: true
+  #   selector:
+  #     app: "private-istio-ingressgateway"
+  #   servers:
+  #   - hosts:
+  #     - "mypackage.{{ .Values.domain }}"
+  #     port:
+  #       name: http2
+  #       number: 8443
+  #       protocol: HTTPS
+  #     tls:
+  #       credentialName: "some-secret"
+  #       mode: "SIMPLE"
