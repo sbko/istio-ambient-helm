@@ -1,0 +1,32 @@
+{{- range $name, $values := .Values.gateways }}
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{ $name }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  gatewayClassName: istio
+  listeners:
+{{- range $servers := $values.servers }}
+{{- $tls := (eq $servers.port.protocol "HTTPS") }}
+  - name: {{ $servers.port.name | default "http" }}
+    protocol: {{ $servers.port.protocol | upper }}
+    port: {{ $servers.port.number }}
+    {{- if $tls }}
+    tls:
+      mode: Terminate
+      certificateRefs:
+        - name: {{ $index }}-{{ $name }}-cert
+          kind: Secret
+          group: ""
+    {{- end }}
+    allowedRoutes:
+      namespaces:
+        from: All
+    hostname:
+      {{- range $host := $servers.hosts }}
+      - {{ tpl $host $ }}
+      {{- end }}
+{{- end }}
+{{- end }}
