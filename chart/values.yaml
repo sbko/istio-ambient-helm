@@ -18,6 +18,8 @@ cni:
     ambient:
       enabled: true
 
+domain: dev.bigbang.mil
+
 gateways:
   main:
     enabled: true
