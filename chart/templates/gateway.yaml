@@ -8,7 +8,7 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-{{- range $servers := $values.servers }}
+{{- range $index, $servers := $values.servers }}
 {{- $tls := (eq $servers.port.protocol "HTTPS") }}
   - name: {{ $servers.port.name | default "http" }}
     protocol: {{ $servers.port.protocol | upper }}
